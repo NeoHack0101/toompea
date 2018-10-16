@@ -1,46 +1,51 @@
-import React, { Component } from "react";
-import "./App.css";
-import Form1 from "./components/Form1";
-import Form2 from "./components/Form2";
-import Form3 from "./components/Form3";
-import Wrap from "./components/Wrap";
-import Expand from "./components/Expand";
+import React, { Component, Fragment } from 'react'
+import Form from './components/material-ui/Form'
+import AppBar from './components/material-ui/AppBar'
+import SignIn from './components/material-ui/SignIn'
+import Navigation from './components/Navigation'
+import './App.css'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      collapse: true
-    };
+      collapse: true,
+      route: 'signin',
+      isSignedin: false
+    }
   }
 
   onButtonClick = () => {
     if (this.state.collapse === true) {
-      this.setState({ collapse: false });
+      this.setState({ collapse: false })
     } else if (this.state.collapse === false) {
-      this.setState({ collapse: true });
+      this.setState({ collapse: true })
     }
-  };
+  }
+
+  onRouteChange = route => {
+    this.setState({ route: route })
+    if (route === 'home') {
+      this.setState({ isSignedin: true })
+    } else {
+      this.setState({ isSignedin: false })
+    }
+  }
 
   render() {
     return (
-      <div className="container">
-        <div>
-          <Expand>
-            <Form1 />
-          </Expand>
-        </div>
-        <div>
-          <Expand>
-            <Form2 />
-          </Expand>
-        </div>
-        <div className="">
-          <Form3 />
-        </div>
-      </div>
-    );
+      <Fragment>
+        {!this.state.isSignedin ? (
+          <SignIn onRouteChange={this.onRouteChange} />
+        ) : (
+          <div>
+            <AppBar />
+            <Form />
+          </div>
+        )}
+      </Fragment>
+    )
   }
 }
 
-export default App;
+export default App
