@@ -1,25 +1,42 @@
 import React, { Component, Fragment } from 'react'
-import Form from './components/material-ui/Form'
-import AppBar from './components/material-ui/AppBar'
-import SignIn from './components/material-ui/SignIn'
+import Form from './components/Form'
+import AppBar from './components/AppBar'
+import SignIn from './components/SignIn'
+import UserTable from './components/UserTable'
+import UserTable2 from './components/UserTable2'
 import Navigation from './components/Navigation'
 import './App.css'
+
+const users = [
+  {
+    aadress: 'Nugise 14',
+    eesNimi: 'Dimitri',
+    email: 'ala@rull.ee',
+    isikukood: '3939393939',
+    sünniaeg: '1999-02-01',
+    pereNimi: 'Nugis',
+    sugu: 'M',
+    sünniaeg: '',
+    telefon: '565656565'
+  },
+  {
+    aadress: 'Kallala 43',
+    eesNimi: 'Dimitri',
+    email: 'fasdf@fj.com',
+    isikukood: '32342342',
+    pereNimi: 'Kala',
+    sugu: 'M',
+    sünniaeg: '1995-01-02',
+    telefon: '5656565656'
+  }
+]
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      collapse: true,
       route: 'signin',
-      isSignedin: false
-    }
-  }
-
-  onButtonClick = () => {
-    if (this.state.collapse === true) {
-      this.setState({ collapse: false })
-    } else if (this.state.collapse === false) {
-      this.setState({ collapse: true })
+      isSignedin: true
     }
   }
 
@@ -32,6 +49,11 @@ class App extends Component {
     }
   }
 
+  onSubmit = user => {
+    users.push(user)
+    console.log(users)
+  }
+
   render() {
     return (
       <Fragment>
@@ -40,7 +62,10 @@ class App extends Component {
         ) : (
           <div>
             <AppBar />
-            <Form />
+            <UserTable users={users} />
+            <UserTable2 users={users} />
+
+            <Form onSubmit={user => this.onSubmit(user)} />
           </div>
         )}
       </Fragment>

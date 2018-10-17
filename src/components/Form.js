@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
+import { Button } from '@material-ui/core'
 
 const styles = theme => ({
   container: {
@@ -15,12 +16,6 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
-  },
-  dense: {
-    marginTop: 16
-  },
-  menu: {
-    width: 200
   },
   paper: {
     marginTop: theme.spacing.unit * 8,
@@ -36,7 +31,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 600,
+      width: 300,
       marginLeft: 'auto',
       marginRight: 'auto'
     }
@@ -49,7 +44,7 @@ class Form6 extends React.Component {
     pereNimi: '',
     isikukood: '',
     sünniaeg: '',
-    sugu: '',
+    sugu: 'M',
     telefon: '',
     aadress: '',
     email: ''
@@ -59,7 +54,20 @@ class Form6 extends React.Component {
     this.setState({
       [input]: event.target.value
     })
-    console.log(this.state)
+  }
+
+  onSubmit = () => {
+    this.props.onSubmit(this.state)
+    this.setState({
+      eesNimi: '',
+      pereNimi: '',
+      isikukood: '',
+      sünniaeg: '',
+      sugu: '',
+      telefon: '',
+      aadress: '',
+      email: ''
+    })
   }
 
   render() {
@@ -76,7 +84,7 @@ class Form6 extends React.Component {
               value={this.state.eesNimi}
               onChange={this.handleChange('eesNimi')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
             <br />
             <TextField
@@ -86,7 +94,7 @@ class Form6 extends React.Component {
               value={this.state.pereNimi}
               onChange={this.handleChange('pereNimi')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
             <br />
             <TextField
@@ -94,36 +102,53 @@ class Form6 extends React.Component {
               label="Isikukood"
               className={classes.textField}
               value={this.state.isikukood}
+              type="number"
               onChange={this.handleChange('isikukood')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
+
             <TextField
               id="sünniaeg"
               label="Sünniaeg"
               className={classes.textField}
-              value={this.state.sünniaeg}
+              defaultValue="1999-01-01"
+              type="date"
               onChange={this.handleChange('sünniaeg')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
             <TextField
               id="sugu"
               label="Sugu"
+              select
               className={classes.textField}
               value={this.state.sugu}
               onChange={this.handleChange('sugu')}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
               margin="normal"
-              variant="outlined"
-            />
+              variant="standard"
+            >
+              <MenuItem key="mees" value="M">
+                Mees
+              </MenuItem>
+              <MenuItem key="naine" value="N">
+                Naine
+              </MenuItem>
+            </TextField>
             <TextField
               id="telefon"
               label="Telefon"
               className={classes.textField}
               value={this.state.telefon}
+              type="number"
               onChange={this.handleChange('telefon')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
             <TextField
               id="aadress"
@@ -132,7 +157,7 @@ class Form6 extends React.Component {
               value={this.state.aadress}
               onChange={this.handleChange('aadress')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
             <TextField
               id="email"
@@ -141,8 +166,12 @@ class Form6 extends React.Component {
               value={this.state.email}
               onChange={this.handleChange('email')}
               margin="normal"
-              variant="outlined"
+              variant="standard"
             />
+
+            <Button onClick={this.onSubmit} variant="contained" color="primary">
+              Submit
+            </Button>
           </form>
         </Paper>
       </main>
