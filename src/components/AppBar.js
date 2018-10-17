@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
-
-window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true
+import { AppBar, Toolbar, Button, Grid } from '@material-ui/core'
 
 const styles = {
   root: {
@@ -29,6 +27,7 @@ function SimpleAppBar(props) {
         >
           Home
         </Button>
+
         <Button
           onClick={() => onRouteChange('addUser')}
           variant="contained"

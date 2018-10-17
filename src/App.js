@@ -3,20 +3,17 @@ import Form from './components/Form'
 import AppBar from './components/AppBar'
 import SignIn from './components/SignIn'
 import UserTable from './components/UserTable'
-import UserTable2 from './components/UserTable2'
-import Navigation from './components/Navigation'
 import './App.css'
 
 const users = [
   {
     aadress: 'Nugise 14',
-    eesNimi: 'Dimitri',
+    eesNimi: 'Sergei',
     email: 'ala@rull.ee',
     isikukood: '3939393939',
     sünniaeg: '1999-02-01',
     pereNimi: 'Nugis',
     sugu: 'M',
-    sünniaeg: '',
     telefon: '565656565'
   },
   {
@@ -36,7 +33,7 @@ class App extends Component {
     super()
     this.state = {
       route: 'signin',
-      isSignedin: true
+      isSignedin: false
     }
   }
 

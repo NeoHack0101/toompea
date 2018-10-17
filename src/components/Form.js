@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import Grid from '@material-ui/core/Grid'
 import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
@@ -48,13 +46,9 @@ class Form6 extends React.Component {
     telefon: '',
     aadress: '',
     email: '',
-    eesNimiErr: '',
-    pereNimiErr: '',
     isikukoodErr: '',
-    sünniaegErr: '',
-    telefonErr: '',
-    aadressErr: '',
-    emailErr: ''
+    emailErr: '',
+    noInputErr: ''
   }
 
   handleChange = input => event => {
@@ -63,8 +57,9 @@ class Form6 extends React.Component {
     })
   }
 
-  onSubmit = () => {
-    const err = this.validate()
+  onSubmit = e => {
+    e.preventDefault()
+    const err = false //this.validate()
     if (!err) {
       this.props.onSubmit(this.state)
       this.setState({
@@ -72,20 +67,29 @@ class Form6 extends React.Component {
         pereNimi: '',
         isikukood: '',
         sünniaeg: '',
-        sugu: '',
+        sugu: 'M',
         telefon: '',
         aadress: '',
-        email: ''
+        email: '',
+        isikukoodErr: '',
+        emailErr: '',
+        noInputErr: ''
       })
     }
+    console.log('onsubmit error-', err)
+    return err
   }
 
   validate = () => {
     let isError = false
     const errors = {}
-    if (this.state.eesNimi.length < 1) {
+    if (!this.state.email.includes('@')) {
       isError = true
-      errors.eesNimiErr = 'Sisesta eesnimi'
+      errors.emailErr = 'email ei ole korrektne'
+    }
+    if (this.state.isikukood.length !== 11) {
+      isError = true
+      errors.isikukoodErr = 'isikukood ei ole korrektne'
     }
     if (isError) {
       this.setState({
@@ -93,6 +97,8 @@ class Form6 extends React.Component {
         ...errors
       })
     }
+    console.log('validate isError-', isError)
+
     return isError
   }
 
@@ -102,7 +108,7 @@ class Form6 extends React.Component {
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <form className={classes.container} autoComplete="off">
+          <form id="mainform" className={classes.container} autoComplete="off">
             <TextField
               id="eesNimi"
               label="Eesnimi"
@@ -111,7 +117,6 @@ class Form6 extends React.Component {
               onChange={this.handleChange('eesNimi')}
               margin="normal"
               variant="standard"
-              errorText={this.state.eesNimiErr}
             />
             <TextField
               id="pereNimi"
@@ -121,7 +126,6 @@ class Form6 extends React.Component {
               onChange={this.handleChange('pereNimi')}
               margin="normal"
               variant="standard"
-              errorText={this.state.pereNimiErr}
             />
             <TextField
               id="isikukood"
@@ -132,7 +136,7 @@ class Form6 extends React.Component {
               onChange={this.handleChange('isikukood')}
               margin="normal"
               variant="standard"
-              errorText={this.state.isikukoodErr}
+              helperText={this.state.isikukoodErr}
             />
             <TextField
               id="sünniaeg"
@@ -184,7 +188,6 @@ class Form6 extends React.Component {
               onChange={this.handleChange('aadress')}
               margin="normal"
               variant="standard"
-              errorText={this.state.aadressErr}
             />
             <TextField
               id="email"
@@ -194,7 +197,7 @@ class Form6 extends React.Component {
               onChange={this.handleChange('email')}
               margin="normal"
               variant="standard"
-              errorText={this.state.emailErr}
+              helperText={this.state.emailErr}
             />
 
             <Button onClick={this.onSubmit} variant="contained" color="primary">

@@ -22,12 +22,6 @@ const styles = theme => ({
 function UserTable(props) {
   const { classes, users } = props
 
-  let id = 0
-  function createData(name, calories, fat, carbs, protein) {
-    id += 1
-    return { id, name, calories, fat, carbs, protein }
-  }
-
   console.log(users)
 
   return (
