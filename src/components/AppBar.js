@@ -15,12 +15,13 @@ const styles = {
 }
 
 function SimpleAppBar(props) {
-  const { classes } = props
+  const { classes, onRouteChange } = props
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Button
+          onClick={() => onRouteChange('home')}
           variant="contained"
           color=""
           className={classes.button}
@@ -29,6 +30,7 @@ function SimpleAppBar(props) {
           Home
         </Button>
         <Button
+          onClick={() => onRouteChange('addUser')}
           variant="contained"
           color="secondary"
           className={classes.button}

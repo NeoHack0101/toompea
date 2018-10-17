@@ -47,7 +47,14 @@ class Form6 extends React.Component {
     sugu: 'M',
     telefon: '',
     aadress: '',
-    email: ''
+    email: '',
+    eesNimiErr: '',
+    pereNimiErr: '',
+    isikukoodErr: '',
+    sünniaegErr: '',
+    telefonErr: '',
+    aadressErr: '',
+    emailErr: ''
   }
 
   handleChange = input => event => {
@@ -57,17 +64,36 @@ class Form6 extends React.Component {
   }
 
   onSubmit = () => {
-    this.props.onSubmit(this.state)
-    this.setState({
-      eesNimi: '',
-      pereNimi: '',
-      isikukood: '',
-      sünniaeg: '',
-      sugu: '',
-      telefon: '',
-      aadress: '',
-      email: ''
-    })
+    const err = this.validate()
+    if (!err) {
+      this.props.onSubmit(this.state)
+      this.setState({
+        eesNimi: '',
+        pereNimi: '',
+        isikukood: '',
+        sünniaeg: '',
+        sugu: '',
+        telefon: '',
+        aadress: '',
+        email: ''
+      })
+    }
+  }
+
+  validate = () => {
+    let isError = false
+    const errors = {}
+    if (this.state.eesNimi.length < 1) {
+      isError = true
+      errors.eesNimiErr = 'Sisesta eesnimi'
+    }
+    if (isError) {
+      this.setState({
+        ...this.state,
+        ...errors
+      })
+    }
+    return isError
   }
 
   render() {
@@ -76,7 +102,7 @@ class Form6 extends React.Component {
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <form className={classes.container} noValidate autoComplete="off">
+          <form className={classes.container} autoComplete="off">
             <TextField
               id="eesNimi"
               label="Eesnimi"
@@ -85,8 +111,8 @@ class Form6 extends React.Component {
               onChange={this.handleChange('eesNimi')}
               margin="normal"
               variant="standard"
+              errorText={this.state.eesNimiErr}
             />
-            <br />
             <TextField
               id="pereNimi"
               label="Perekonna nimi"
@@ -95,8 +121,8 @@ class Form6 extends React.Component {
               onChange={this.handleChange('pereNimi')}
               margin="normal"
               variant="standard"
+              errorText={this.state.pereNimiErr}
             />
-            <br />
             <TextField
               id="isikukood"
               label="Isikukood"
@@ -106,8 +132,8 @@ class Form6 extends React.Component {
               onChange={this.handleChange('isikukood')}
               margin="normal"
               variant="standard"
+              errorText={this.state.isikukoodErr}
             />
-
             <TextField
               id="sünniaeg"
               label="Sünniaeg"
@@ -158,6 +184,7 @@ class Form6 extends React.Component {
               onChange={this.handleChange('aadress')}
               margin="normal"
               variant="standard"
+              errorText={this.state.aadressErr}
             />
             <TextField
               id="email"
@@ -167,6 +194,7 @@ class Form6 extends React.Component {
               onChange={this.handleChange('email')}
               margin="normal"
               variant="standard"
+              errorText={this.state.emailErr}
             />
 
             <Button onClick={this.onSubmit} variant="contained" color="primary">

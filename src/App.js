@@ -42,7 +42,7 @@ class App extends Component {
 
   onRouteChange = route => {
     this.setState({ route: route })
-    if (route === 'home') {
+    if (route === 'home' || route === 'addUser') {
       this.setState({ isSignedin: true })
     } else {
       this.setState({ isSignedin: false })
@@ -61,11 +61,12 @@ class App extends Component {
           <SignIn onRouteChange={this.onRouteChange} />
         ) : (
           <div>
-            <AppBar />
-            <UserTable users={users} />
-            <UserTable2 users={users} />
-
-            <Form onSubmit={user => this.onSubmit(user)} />
+            <AppBar onRouteChange={this.onRouteChange} />
+            {this.state.route === 'home' ? (
+              <UserTable users={users} />
+            ) : (
+              <Form onSubmit={user => this.onSubmit(user)} />
+            )}
           </div>
         )}
       </Fragment>
