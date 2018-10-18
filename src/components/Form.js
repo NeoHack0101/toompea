@@ -59,7 +59,7 @@ class Form6 extends React.Component {
 
   onSubmit = e => {
     e.preventDefault()
-    const err = false //this.validate()
+    const err = this.validate()
     if (!err) {
       this.props.onSubmit(this.state)
       this.setState({
