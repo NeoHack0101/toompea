@@ -3,6 +3,7 @@ import Form from './components/Form'
 import AppBar from './components/AppBar'
 import SignIn from './components/SignIn'
 import UserTable from './components/UserTable'
+import UserTable2 from './components/UserTable2'
 import './App.css'
 
 const users = [
@@ -33,8 +34,15 @@ class App extends Component {
     super()
     this.state = {
       route: 'signin',
-      isSignedin: false
+      isSignedin: true
     }
+  }
+
+  componentDidMount() {
+    // fetch('http://cdb.randotm.tk/get_users') //http://localhost:5000
+    //   .then(res => res.json())
+    //   .then(console.log)
+    //   .catch()
   }
 
   onRouteChange = route => {
@@ -60,7 +68,10 @@ class App extends Component {
           <div>
             <AppBar onRouteChange={this.onRouteChange} />
             {this.state.route === 'home' ? (
-              <UserTable users={users} />
+              <Fragment>
+                <UserTable users={users} />
+                <UserTable2 users={users} />
+              </Fragment>
             ) : (
               <Form onSubmit={user => this.onSubmit(user)} />
             )}

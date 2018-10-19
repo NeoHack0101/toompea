@@ -1,12 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
-import { AppBar, Toolbar, Button, Grid } from '@material-ui/core'
+import { AppBar, Toolbar, Button } from '@material-ui/core'
 
 const styles = {
-  root: {
-    flexGrow: 1
-  },
   button: {
     marginRight: 10
   }
@@ -21,7 +17,6 @@ function SimpleAppBar(props) {
         <Button
           onClick={() => onRouteChange('home')}
           variant="contained"
-          color=""
           className={classes.button}
           style={styles.button}
         >
@@ -40,10 +35,6 @@ function SimpleAppBar(props) {
       </Toolbar>
     </AppBar>
   )
-}
-
-SimpleAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(SimpleAppBar)
