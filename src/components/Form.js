@@ -28,20 +28,69 @@ class Form6 extends React.Component {
     eesNimi: '',
     pereNimi: '',
     isikukood: '',
-    sünniaeg: '',
-    sugu: 'M',
+    sünniaeg: {
+      aasta: '1999',
+      kuu: '01',
+      päev: '01'
+    },
+    sugu: '',
     telefon: '',
     aadress: '',
     email: '',
-    isikukoodErr: '',
-    emailErr: '',
-    noInputErr: ''
+    isikukoodErrMessage: '',
+    emailErrMessage: ''
   }
 
   handleChange = input => event => {
     this.setState({
       [input]: event.target.value
     })
+
+    if (
+      this.state.isikukood.startsWith('4') ||
+      this.state.isikukood.startsWith('6')
+    ) {
+      this.setState({
+        sugu: 'N'
+      })
+    } else if (
+      this.state.isikukood.startsWith('3') ||
+      this.state.isikukood.startsWith('5')
+    ) {
+      this.setState({
+        sugu: 'M'
+      })
+    }
+
+    if (this.state.isikukood.length === 3) {
+      this.setState({
+        sünniaeg: {
+          ...this.state.sünniaeg,
+          aasta: `${
+            this.state.isikukood.charAt(0) === '3' ||
+            this.state.isikukood.charAt(0) === '4'
+              ? '19'
+              : '20'
+          }${this.state.isikukood.substring(1, 3)}`
+        }
+      })
+    }
+    if (this.state.isikukood.length === 5) {
+      this.setState({
+        sünniaeg: {
+          ...this.state.sünniaeg,
+          kuu: `${this.state.isikukood.substring(3, 5)}`
+        }
+      })
+    }
+    if (this.state.isikukood.length === 7) {
+      this.setState({
+        sünniaeg: {
+          ...this.state.sünniaeg,
+          päev: `${this.state.isikukood.substring(5, 7)}`
+        }
+      })
+    }
   }
 
   onSubmit = e => {
@@ -53,39 +102,40 @@ class Form6 extends React.Component {
         eesNimi: '',
         pereNimi: '',
         isikukood: '',
-        sünniaeg: '',
-        sugu: 'M',
+        sünniaeg: {
+          aasta: '1999',
+          kuu: '01',
+          päev: '01'
+        },
+        sugu: '',
         telefon: '',
         aadress: '',
         email: '',
-        isikukoodErr: '',
-        emailErr: '',
-        noInputErr: ''
+        isikukoodErrMessage: '',
+        emailErrMessage: ''
       })
     }
-    console.log('onsubmit error-', err)
     return err
   }
 
   validate = () => {
     let isError = false
-    const errors = {}
+    const errors = {
+      isikukoodErrMessage: '',
+      emailErrMessage: ''
+    }
     if (!this.state.email.includes('@')) {
       isError = true
-      errors.emailErr = 'email ei ole korrektne'
+      errors.emailErrMessage = 'kehtetu email'
     }
     if (this.state.isikukood.length !== 11) {
       isError = true
-      errors.isikukoodErr = 'isikukood ei ole korrektne'
+      errors.isikukoodErrMessage = 'viga isikukoodis'
     }
-    if (isError) {
-      this.setState({
-        ...this.state,
-        ...errors
-      })
-    }
-    console.log('validate isError-', isError)
-
+    this.setState({
+      ...this.state,
+      ...errors
+    })
     return isError
   }
 
@@ -131,7 +181,9 @@ class Form6 extends React.Component {
                 onChange={this.handleChange('isikukood')}
                 margin="normal"
                 variant="standard"
-                helperText={this.state.isikukoodErr}
+                helperText={this.state.isikukoodErrMessage}
+                error={this.state.isikukoodErrMessage.length > 0}
+                required
               />
             </Grid>
             <Grid item sm={4}>
@@ -139,11 +191,14 @@ class Form6 extends React.Component {
                 id="sünniaeg"
                 label="Sünniaeg"
                 className={classes.textField}
-                defaultValue="1999-01-01"
+                value={`${this.state.sünniaeg.aasta}-${
+                  this.state.sünniaeg.kuu
+                }-${this.state.sünniaeg.päev}`}
                 type="date"
                 onChange={this.handleChange('sünniaeg')}
                 margin="normal"
                 variant="standard"
+                disabled
               />
             </Grid>
             <Grid item sm={2}>
@@ -151,6 +206,7 @@ class Form6 extends React.Component {
                 id="sugu"
                 label="Sugu"
                 select
+                disabled
                 className={classes.textField}
                 value={this.state.sugu}
                 onChange={this.handleChange('sugu')}
@@ -199,12 +255,12 @@ class Form6 extends React.Component {
             onChange={this.handleChange('email')}
             margin="normal"
             variant="standard"
-            helperText={this.state.emailErr}
+            helperText={this.state.emailErrMessage}
+            error={this.state.emailErrMessage.length > 0}
           />
-          <br />
           <div className={classes.button}>
             <Button onClick={this.onSubmit} variant="contained" color="primary">
-              Lisa
+              Submit
             </Button>
           </div>
         </form>
