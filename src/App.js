@@ -47,14 +47,6 @@ class App extends Component {
     const url = 'https://randomuser.me/api/?results=20'
     const response = await fetch(url)
     const data = await response.json()
-    let tmp = {
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '1900-01-01',
-      sex: '',
-      phone: '',
-      email: ''
-    }
     data.results.map(user => {
       users.push({
         firstName: user.name.first,
@@ -87,30 +79,31 @@ class App extends Component {
   }
 
   render() {
+    if (!this.state.isSignedin) {
+      return <SignIn onRouteChange={this.onRouteChange} />
+    }
+
     return (
       <Fragment>
-        {!this.state.isSignedin ? (
-          <SignIn onRouteChange={this.onRouteChange} />
-        ) : (
-          <div>
-            <AppBar onRouteChange={this.onRouteChange} />
-            {this.state.route === 'home' ? (
-              <Fragment>
-                <UserModal
-                  toggleModal={this.toggleModal}
-                  open={this.state.open}
-                  getUser={user => this.getUser(user)}
-                />
-                <UserTable
-                  users={users}
-                  toggleModal={this.toggleModal}
-                  getUser={this.getUser}
-                />
-              </Fragment>
-            ) : (
-              <Form onSubmit={user => this.onSubmit(user)} />
-            )}
-          </div>
+        <div>
+          <AppBar onRouteChange={this.onRouteChange} />
+          {this.state.route === 'home' ? (
+            <Fragment>
+              <UserModal
+                toggleModal={this.toggleModal}
+                open={this.state.open}
+                getUser={user => this.getUser(user)}
+              />
+              <UserTable
+                users={users}
+                toggleModal={this.toggleModal}
+                getUser={this.getUser}
+              />
+            </Fragment>
+          ) : (
+            <Form onSubmit={user => this.onSubmit(user)} />
+          )}
+        </div>
         )}
       </Fragment>
     )
