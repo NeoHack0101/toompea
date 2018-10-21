@@ -37,17 +37,32 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      route: 'home',
-      isSignedin: true,
+      route: 'signIn',
+      isSignedin: false,
       open: false
     }
   }
 
-  componentDidMount() {
-    // fetch('http://cdb.randotm.tk/get_users') //http://localhost:5000
-    //   .then(res => res.json())
-    //   .then(console.log)
-    //   .catch()
+  async componentDidMount() {
+    const url = 'https://randomuser.me/api/?results=20'
+    const response = await fetch(url)
+    const data = await response.json()
+    let tmp = {
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '1900-01-01',
+      sex: '',
+      phone: '',
+      email: ''
+    }
+    data.results.map(user => {
+      users.push({
+        firstName: user.name.first,
+        lastName: user.name.last,
+        email: user.email,
+        phone: user.phone
+      })
+    })
   }
 
   onRouteChange = route => {

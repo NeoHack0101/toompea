@@ -8,7 +8,9 @@ const UserTable = ({ users, toggleModal }) => {
         columns={[
           { title: 'Nimi', field: 'firstName' },
           { title: 'Perenimi', field: 'lastName' },
-          { title: 'Isikukood', field: 'id', type: 'numeric' },
+          { title: 'Email', field: 'email' },
+          { title: 'Isikukood', field: 'id' },
+          { title: 'Telefon', field: 'phone' },
           {
             title: 'Sünniaeg',
             field: 'dateOfBirth',
