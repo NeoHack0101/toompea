@@ -23,6 +23,8 @@ const styles = theme => ({
   }
 })
 
+const initialState = {}
+
 class Form6 extends React.Component {
   state = {
     eesNimi: '',
@@ -93,9 +95,9 @@ class Form6 extends React.Component {
     }
   }
 
-  onSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault()
-    const err = this.validate()
+    const err = false //this.validate()
     if (!err) {
       this.props.onSubmit(this.state)
       this.setState({
@@ -103,7 +105,7 @@ class Form6 extends React.Component {
         pereNimi: '',
         isikukood: '',
         sünniaeg: {
-          aasta: '1999',
+          aasta: '1900',
           kuu: '01',
           päev: '01'
         },
@@ -144,7 +146,7 @@ class Form6 extends React.Component {
 
     return (
       <Paper className={classes.paper}>
-        <form id="mainform" autoComplete="off">
+        <form id="mainform" autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid container>
             <Grid item sm>
               <TextField
@@ -259,7 +261,7 @@ class Form6 extends React.Component {
             error={this.state.emailErrMessage.length > 0}
           />
           <div className={classes.button}>
-            <Button onClick={this.onSubmit} variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary">
               Submit
             </Button>
           </div>

@@ -4,6 +4,7 @@ import AppBar from './components/AppBar'
 import SignIn from './components/SignIn'
 import UserTable from './components/UserTable'
 import UserTable2 from './components/UserTable2'
+import UserModal from './components/UserModal'
 import './App.css'
 
 const users = [
@@ -12,7 +13,11 @@ const users = [
     eesNimi: 'Sergei',
     email: 'ala@rull.ee',
     isikukood: '3939393939',
-    sünniaeg: '1999-02-01',
+    sünniaeg: {
+      aasta: '1919',
+      kuu: '05',
+      päev: '12'
+    },
     pereNimi: 'Nugis',
     sugu: 'M',
     telefon: '565656565'
@@ -24,7 +29,11 @@ const users = [
     isikukood: '32342342',
     pereNimi: 'Kala',
     sugu: 'M',
-    sünniaeg: '1995-01-02',
+    sünniaeg: {
+      aasta: '2012',
+      kuu: '02',
+      päev: '02'
+    },
     telefon: '5656565656'
   }
 ]
@@ -33,8 +42,9 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      route: 'signin',
-      isSignedin: true
+      route: 'home',
+      isSignedin: true,
+      open: false
     }
   }
 
@@ -59,6 +69,10 @@ class App extends Component {
     console.log(users)
   }
 
+  toggleModal = () => {
+    this.setState({ open: !this.state.open })
+  }
+
   render() {
     return (
       <Fragment>
@@ -69,8 +83,11 @@ class App extends Component {
             <AppBar onRouteChange={this.onRouteChange} />
             {this.state.route === 'home' ? (
               <Fragment>
-                <UserTable users={users} />
-                <UserTable2 users={users} />
+                <UserModal
+                  toggleModal={this.toggleModal}
+                  open={this.state.open}
+                />
+                <UserTable2 users={users} toggleModal={this.toggleModal} />
               </Fragment>
             ) : (
               <Form onSubmit={user => this.onSubmit(user)} />

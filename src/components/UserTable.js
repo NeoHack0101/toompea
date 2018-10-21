@@ -1,11 +1,13 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper
+} from '@material-ui/core'
 
 const styles = theme => ({
   root: {
@@ -20,8 +22,6 @@ const styles = theme => ({
 
 function UserTable(props) {
   const { classes, users } = props
-
-  console.log(users)
 
   return (
     <Paper className={classes.root}>
@@ -49,7 +49,13 @@ function UserTable(props) {
                 <TableCell>{user.eesNimi}</TableCell>
                 <TableCell>{user.pereNimi}</TableCell>
                 <TableCell>{user.isikukood}</TableCell>
-                <TableCell>{user.sünniaeg}</TableCell>
+                <TableCell>
+                  {user.sünniaeg.aasta +
+                    '-' +
+                    user.sünniaeg.kuu +
+                    '-' +
+                    user.sünniaeg.päev}
+                </TableCell>
                 <TableCell>{user.sugu}</TableCell>
                 <TableCell>{user.telefon}</TableCell>
                 <TableCell>{user.aadress}</TableCell>
