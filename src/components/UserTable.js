@@ -1,72 +1,33 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper
-} from '@material-ui/core'
+import React, { Fragment } from 'react'
+import MaterialTable from 'material-table'
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto'
-  },
-  table: {
-    minWidth: 700
-  }
-})
-
-function UserTable(props) {
-  const { classes, users } = props
-
+const UserTable = ({ users, toggleModal }) => {
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Users</TableCell>
-            <TableCell>Eesnimi</TableCell>
-            <TableCell>Perenimi</TableCell>
-            <TableCell>Isikukood</TableCell>
-            <TableCell>Sünniaeg</TableCell>
-            <TableCell>Sugu</TableCell>
-            <TableCell>telefon</TableCell>
-            <TableCell>Aadress</TableCell>
-            <TableCell>e-mail</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user, i) => {
-            return (
-              <TableRow key={i}>
-                <TableCell component="th" scope="user">
-                  {i}
-                </TableCell>
-                <TableCell>{user.eesNimi}</TableCell>
-                <TableCell>{user.pereNimi}</TableCell>
-                <TableCell>{user.isikukood}</TableCell>
-                <TableCell>
-                  {user.sünniaeg.aasta +
-                    '-' +
-                    user.sünniaeg.kuu +
-                    '-' +
-                    user.sünniaeg.päev}
-                </TableCell>
-                <TableCell>{user.sugu}</TableCell>
-                <TableCell>{user.telefon}</TableCell>
-                <TableCell>{user.aadress}</TableCell>
-                <TableCell>{user.email}</TableCell>
-              </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
-    </Paper>
+    <Fragment>
+      <MaterialTable
+        columns={[
+          { title: 'Nimi', field: 'firstName' },
+          { title: 'Perenimi', field: 'lastName' },
+          { title: 'Isikukood', field: 'id', type: 'numeric' },
+          {
+            title: 'Sünniaeg',
+            field: 'dateOfBirth',
+            type: 'date'
+          }
+        ]}
+        data={users}
+        title="Members"
+        actions={[
+          {
+            icon: 'account_box',
+            onClick: (e, row) => {
+              toggleModal()
+            }
+          }
+        ]}
+      />
+    </Fragment>
   )
 }
 
-export default withStyles(styles)(UserTable)
+export default UserTable

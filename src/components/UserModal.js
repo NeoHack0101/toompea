@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import { Typography, Button, Modal } from '@material-ui/core'
+import { Modal } from '@material-ui/core'
+import Profile from './Profile'
 
 const styles = theme => ({
   paper: {
@@ -14,33 +15,16 @@ const styles = theme => ({
 
 class UserModal extends React.Component {
   render() {
-    const { classes, toggleModal, open } = this.props
-
+    const { toggleModal, open, users, getUser } = this.props
     return (
       <div>
-        {/* <Button onClick={toggleModal}>Open Modal</Button> */}
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           open={open}
           onClose={toggleModal}
         >
-          <div
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)'
-            }}
-            className={classes.paper}
-          >
-            <Typography variant="h6" id="modal-title">
-              User profile
-            </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </div>
+          <Profile users={users} getUser={getUser} />
         </Modal>
       </div>
     )

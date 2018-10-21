@@ -23,23 +23,13 @@ const styles = theme => ({
   }
 })
 
-const initialState = {
-  firstName: '',
-  lastName: '',
-  id: '',
-  dateOfBirth: '1900-01-01',
-  sex: '',
-  phone: '',
-  address: '',
-  email: '',
-  idErrMessage: '',
-  emailErrMessage: ''
-}
+class Profile extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = this.props.getUser(1)
+  }
 
-class Form6 extends React.Component {
-  state = initialState
-
-  handleChange = input => event => {
+  /*  handleChange = input => event => {
     this.setState({
       [input]: event.target.value
     })
@@ -66,45 +56,14 @@ class Form6 extends React.Component {
         )}-${this.state.id.substring(5, 7)}`
       })
     }
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    const err = false //this.validate()
-    if (!err) {
-      this.props.onSubmit(this.state)
-      this.setState(initialState)
-    }
-    return err
-  }
-
-  validate = () => {
-    let isError = false
-    const errors = {
-      idErrMessage: '',
-      emailErrMessage: ''
-    }
-    if (!this.state.email.includes('@')) {
-      isError = true
-      errors.emailErrMessage = 'kehtetu email'
-    }
-    if (this.state.id.length !== 11) {
-      isError = true
-      errors.idErrMessage = 'viga isikukoodis'
-    }
-    this.setState({
-      ...this.state,
-      ...errors
-    })
-    return isError
-  }
+  } */
 
   render() {
     const { classes } = this.props
 
     return (
       <Paper className={classes.paper}>
-        <form id="mainform" autoComplete="off" onSubmit={this.handleSubmit}>
+        <form id="mainform" autoComplete="off">
           <Grid container>
             <Grid item sm>
               <TextField
@@ -112,7 +71,6 @@ class Form6 extends React.Component {
                 label="Eesnimi"
                 className={classes.textField}
                 value={this.state.firstName}
-                onChange={this.handleChange('firstName')}
                 margin="normal"
                 variant="standard"
               />
@@ -123,7 +81,6 @@ class Form6 extends React.Component {
                 label="Perekonna nimi"
                 className={classes.textField}
                 value={this.state.lastName}
-                onChange={this.handleChange('lastName')}
                 margin="normal"
                 variant="standard"
               />
@@ -138,11 +95,9 @@ class Form6 extends React.Component {
                 className={classes.textField}
                 value={this.state.id}
                 type="number"
-                onChange={this.handleChange('id')}
                 margin="normal"
                 variant="standard"
                 helperText={this.state.idErrMessage}
-                error={this.state.idErrMessage.length > 0}
               />
             </Grid>
             <Grid item sm={4}>
@@ -152,7 +107,6 @@ class Form6 extends React.Component {
                 className={classes.textField}
                 value={this.state.dateOfBirth}
                 type="date"
-                onChange={this.handleChange('dateOfBirth')}
                 margin="normal"
                 variant="standard"
               />
@@ -164,7 +118,6 @@ class Form6 extends React.Component {
                 select
                 className={classes.textField}
                 value={this.state.sex}
-                onChange={this.handleChange('sex')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
@@ -189,7 +142,6 @@ class Form6 extends React.Component {
             className={classes.textField}
             value={this.state.phone}
             type="number"
-            onChange={this.handleChange('phone')}
             margin="normal"
             variant="standard"
           />
@@ -198,7 +150,6 @@ class Form6 extends React.Component {
             label="address"
             className={classes.textField}
             value={this.state.address}
-            onChange={this.handleChange('address')}
             margin="normal"
             variant="standard"
           />
@@ -207,15 +158,13 @@ class Form6 extends React.Component {
             label="Email"
             className={classes.textField}
             value={this.state.email}
-            onChange={this.handleChange('email')}
             margin="normal"
             variant="standard"
             helperText={this.state.emailErrMessage}
-            error={this.state.emailErrMessage.length > 0}
           />
           <div className={classes.button}>
             <Button type="submit" variant="contained" color="primary">
-              Submit
+              Update
             </Button>
           </div>
         </form>
@@ -224,4 +173,4 @@ class Form6 extends React.Component {
   }
 }
 
-export default withStyles(styles)(Form6)
+export default withStyles(styles)(Profile)

@@ -3,38 +3,33 @@ import Form from './components/Form'
 import AppBar from './components/AppBar'
 import SignIn from './components/SignIn'
 import UserTable from './components/UserTable'
-import UserTable2 from './components/UserTable2'
 import UserModal from './components/UserModal'
 import './App.css'
 
 const users = [
   {
-    aadress: 'Nugise 14',
-    eesNimi: 'Sergei',
-    email: 'ala@rull.ee',
-    isikukood: '3939393939',
-    sünniaeg: {
-      aasta: '1919',
-      kuu: '05',
-      päev: '12'
-    },
-    pereNimi: 'Nugis',
-    sugu: 'M',
-    telefon: '565656565'
+    address: 'Kastani 22',
+    dateOfBirth: '1920-04-05',
+    email: 'kall@i.ee',
+    emailErrMessage: '',
+    firstName: 'Vello',
+    id: '31012110101',
+    idErrMessage: '',
+    lastName: 'Nahk',
+    phone: '56564755',
+    sex: 'M'
   },
   {
-    aadress: 'Kallala 43',
-    eesNimi: 'Dimitri',
-    email: 'fasdf@fj.com',
-    isikukood: '32342342',
-    pereNimi: 'Kala',
-    sugu: 'M',
-    sünniaeg: {
-      aasta: '2012',
-      kuu: '02',
-      päev: '02'
-    },
-    telefon: '5656565656'
+    address: 'Juurikas 22',
+    dateOfBirth: '1845-04-05',
+    email: 'kallis@i.ee',
+    emailErrMessage: '',
+    firstName: 'Peeter',
+    id: '31012100101',
+    idErrMessage: '',
+    lastName: 'Eeter',
+    phone: '565634355',
+    sex: 'M'
   }
 ]
 
@@ -66,11 +61,14 @@ class App extends Component {
 
   onSubmit = user => {
     users.push(user)
-    console.log(users)
   }
 
   toggleModal = () => {
     this.setState({ open: !this.state.open })
+  }
+
+  getUser = selected => {
+    return users[selected]
   }
 
   render() {
@@ -86,8 +84,13 @@ class App extends Component {
                 <UserModal
                   toggleModal={this.toggleModal}
                   open={this.state.open}
+                  getUser={user => this.getUser(user)}
                 />
-                <UserTable2 users={users} toggleModal={this.toggleModal} />
+                <UserTable
+                  users={users}
+                  toggleModal={this.toggleModal}
+                  getUser={this.getUser}
+                />
               </Fragment>
             ) : (
               <Form onSubmit={user => this.onSubmit(user)} />
