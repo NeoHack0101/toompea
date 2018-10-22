@@ -3,8 +3,8 @@ import Form from './components/Form'
 import AppBar from './components/AppBar'
 import SignIn from './components/SignIn'
 import UserTable from './components/UserTable'
-import UserModal from './components/UserModal'
-import './App.css'
+import ModalWrapper from './components/ModalWrapper'
+import Profile from './components/Profile'
 
 const users = [
   {
@@ -33,20 +33,11 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      route: 'signIn',
-      isSignedin: false,
+      route: 'home',
+      isSignedin: true,
       open: false
     }
   }
-  // async componentDidUpdate() {
-  //   const url = 'http://localhost:5000/get_users'
-  //   const response = await fetch(url)
-  //   const data = await response.json()
-  //   console.log('componentDidUpdate', data)
-  //   data.map(user => {
-  //     users.push(user)
-  //   })
-  // }
 
   async componentDidMount() {
     const url = 'http://localhost:5000/get_users'
@@ -90,11 +81,13 @@ class App extends Component {
           <AppBar onRouteChange={this.onRouteChange} />
           {this.state.route === 'home' ? (
             <Fragment>
-              <UserModal
+              <ModalWrapper
                 toggleModal={this.toggleModal}
                 open={this.state.open}
                 getUser={user => this.getUser(user)}
-              />
+              >
+                <Profile users={users} getUser={this.getUser} />
+              </ModalWrapper>
               <UserTable
                 users={users}
                 toggleModal={this.toggleModal}

@@ -1,7 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Modal } from '@material-ui/core'
-import Profile from './Profile'
 
 const styles = theme => ({
   paper: {
@@ -13,9 +12,9 @@ const styles = theme => ({
   }
 })
 
-class UserModal extends React.Component {
+class ModalWrapper extends React.Component {
   render() {
-    const { toggleModal, open, users, getUser } = this.props
+    const { toggleModal, open } = this.props
     return (
       <div>
         <Modal
@@ -24,11 +23,11 @@ class UserModal extends React.Component {
           open={open}
           onClose={toggleModal}
         >
-          <Profile users={users} getUser={getUser} />
+          {this.props.children}
         </Modal>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(UserModal)
+export default withStyles(styles)(ModalWrapper)

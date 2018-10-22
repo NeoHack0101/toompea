@@ -207,7 +207,7 @@ class Form6 extends React.Component {
           />
           <TextField
             id="address"
-            label="address"
+            label="Address"
             className={classes.textField}
             value={this.state.address}
             onChange={this.handleChange('address')}
@@ -222,6 +222,7 @@ class Form6 extends React.Component {
             onChange={this.handleChange('email')}
             margin="normal"
             variant="standard"
+            required
           />
           <div className={classes.button}>
             <Button type="submit" variant="contained" color="primary">

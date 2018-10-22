@@ -29,60 +29,42 @@ class Profile extends React.Component {
     this.state = this.props.getUser(1)
   }
 
-  /*  handleChange = input => event => {
+  handleChange = input => event => {
     this.setState({
       [input]: event.target.value
     })
-
-    if (this.state.id.startsWith('4') || this.state.id.startsWith('6')) {
-      this.setState({
-        sex: 'N'
-      })
-    } else if (this.state.id.startsWith('3') || this.state.id.startsWith('5')) {
-      this.setState({
-        sex: 'M'
-      })
-    }
-
-    if (this.state.id.length === 7) {
-      this.setState({
-        dateOfBirth: `${
-          this.state.id.charAt(0) === '3' || this.state.id.charAt(0) === '4'
-            ? '19'
-            : '20'
-        }${this.state.id.substring(1, 3)}-${this.state.id.substring(
-          3,
-          5
-        )}-${this.state.id.substring(5, 7)}`
-      })
-    }
-  } */
+  }
 
   render() {
     const { classes } = this.props
 
     return (
       <Paper className={classes.paper}>
-        <form id="mainform" autoComplete="off">
+        <form id="mainform" autoComplete="off" onSubmit={this.handleSubmit}>
           <Grid container>
             <Grid item sm>
               <TextField
-                id="firstName"
+                id="first_name"
                 label="Eesnimi"
                 className={classes.textField}
-                value={this.state.firstName}
+                value={this.state.first_name}
+                onChange={this.handleChange('first_name')}
                 margin="normal"
                 variant="standard"
+                autoFocus={true}
+                required
               />
             </Grid>
             <Grid item sm>
               <TextField
-                id="lastName"
+                id="last_name"
                 label="Perekonna nimi"
                 className={classes.textField}
-                value={this.state.lastName}
+                value={this.state.last_name}
+                onChange={this.handleChange('last_name')}
                 margin="normal"
                 variant="standard"
+                required
               />
             </Grid>
           </Grid>
@@ -90,23 +72,24 @@ class Profile extends React.Component {
           <Grid container>
             <Grid item sm={6}>
               <TextField
-                id="id"
+                id="id_code"
                 label="Isikukood"
                 className={classes.textField}
-                value={this.state.id}
+                value={this.state.id_code}
                 type="number"
+                onChange={this.handleChange('id_code')}
                 margin="normal"
                 variant="standard"
-                helperText={this.state.idErrMessage}
               />
             </Grid>
             <Grid item sm={4}>
               <TextField
-                id="dateOfBirth"
+                id="date_of_birth"
                 label="Sünniaeg"
                 className={classes.textField}
-                value={this.state.dateOfBirth}
+                value={this.state.date_of_birth}
                 type="date"
+                onChange={this.handleChange('date_of_birth')}
                 margin="normal"
                 variant="standard"
               />
@@ -118,6 +101,7 @@ class Profile extends React.Component {
                 select
                 className={classes.textField}
                 value={this.state.sex}
+                onChange={this.handleChange('sex')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
@@ -126,10 +110,10 @@ class Profile extends React.Component {
                 margin="normal"
                 variant="standard"
               >
-                <MenuItem key="M" value="M">
+                <MenuItem key="M" value="0">
                   M
                 </MenuItem>
-                <MenuItem key="N" value="N">
+                <MenuItem key="N" value="1">
                   N
                 </MenuItem>
               </TextField>
@@ -142,14 +126,16 @@ class Profile extends React.Component {
             className={classes.textField}
             value={this.state.phone}
             type="number"
+            onChange={this.handleChange('phone')}
             margin="normal"
             variant="standard"
           />
           <TextField
             id="address"
-            label="address"
+            label="Address"
             className={classes.textField}
             value={this.state.address}
+            onChange={this.handleChange('address')}
             margin="normal"
             variant="standard"
           />
@@ -158,13 +144,14 @@ class Profile extends React.Component {
             label="Email"
             className={classes.textField}
             value={this.state.email}
+            onChange={this.handleChange('email')}
             margin="normal"
             variant="standard"
-            helperText={this.state.emailErrMessage}
+            required
           />
           <div className={classes.button}>
             <Button type="submit" variant="contained" color="primary">
-              Update
+              Submit
             </Button>
           </div>
         </form>
