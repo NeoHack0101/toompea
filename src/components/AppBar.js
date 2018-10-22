@@ -51,16 +51,26 @@ class SimpleAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              className="{classes.menuButton}"
-              color="inherit"
-              aria-label="Menu"
+            <Button
+              onClick={() => onRouteChange('home')}
+              variant="contained"
+              className={classes.button}
+              style={styles.button}
             >
-              <Add />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              Photos
-            </Typography>
+              Home
+            </Button>
+
+            <Button
+              onClick={() => onRouteChange('addUser')}
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              style={styles.button}
+            >
+              Add member
+            </Button>
+            <Typography variant="h6" color="inherit" className={classes.grow} />
+
             {auth && (
               <div>
                 <IconButton

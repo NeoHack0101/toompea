@@ -24,16 +24,14 @@ const styles = theme => ({
 })
 
 const initialState = {
-  firstName: '',
-  lastName: '',
-  id: '',
-  dateOfBirth: '1900-01-01',
-  sex: '',
+  first_name: '',
+  last_name: '',
+  id_code: '',
+  date_of_birth: '1900-01-01',
+  sex: '0',
   phone: '',
   address: '',
-  email: '',
-  idErrMessage: '',
-  emailErrMessage: ''
+  email: ''
 }
 
 class Form6 extends React.Component {
@@ -44,26 +42,33 @@ class Form6 extends React.Component {
       [input]: event.target.value
     })
 
-    if (this.state.id.startsWith('4') || this.state.id.startsWith('6')) {
+    if (
+      this.state.id_code.startsWith('4') ||
+      this.state.id_code.startsWith('6')
+    ) {
       this.setState({
         sex: 'N'
       })
-    } else if (this.state.id.startsWith('3') || this.state.id.startsWith('5')) {
+    } else if (
+      this.state.id_code.startsWith('3') ||
+      this.state.id_code.startsWith('5')
+    ) {
       this.setState({
         sex: 'M'
       })
     }
 
-    if (this.state.id.length === 7) {
+    if (this.state.id_code.length === 7) {
       this.setState({
-        dateOfBirth: `${
-          this.state.id.charAt(0) === '3' || this.state.id.charAt(0) === '4'
+        date_of_birth: `${
+          this.state.id_code.charAt(0) === '3' ||
+          this.state.id_code.charAt(0) === '4'
             ? '19'
             : '20'
-        }${this.state.id.substring(1, 3)}-${this.state.id.substring(
+        }${this.state.id_code.substring(1, 3)}-${this.state.id_code.substring(
           3,
           5
-        )}-${this.state.id.substring(5, 7)}`
+        )}-${this.state.id_code.substring(5, 7)}`
       })
     }
   }
@@ -71,8 +76,14 @@ class Form6 extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     const err = false //this.validate()
+    console.log(this.state)
     if (!err) {
-      this.props.onSubmit(this.state)
+      fetch('http://localhost:5000/add_user', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.state)
+      })
+      //this.props.onSubmit(this.state)
       this.setState(initialState)
     }
     return err
@@ -88,7 +99,7 @@ class Form6 extends React.Component {
       isError = true
       errors.emailErrMessage = 'kehtetu email'
     }
-    if (this.state.id.length !== 11) {
+    if (this.state.id_code.length !== 11) {
       isError = true
       errors.idErrMessage = 'viga isikukoodis'
     }
@@ -108,24 +119,27 @@ class Form6 extends React.Component {
           <Grid container>
             <Grid item sm>
               <TextField
-                id="firstName"
+                id="first_name"
                 label="Eesnimi"
                 className={classes.textField}
-                value={this.state.firstName}
-                onChange={this.handleChange('firstName')}
+                value={this.state.first_name}
+                onChange={this.handleChange('first_name')}
                 margin="normal"
                 variant="standard"
+                autoFocus={true}
+                required
               />
             </Grid>
             <Grid item sm>
               <TextField
-                id="lastName"
+                id="last_name"
                 label="Perekonna nimi"
                 className={classes.textField}
-                value={this.state.lastName}
-                onChange={this.handleChange('lastName')}
+                value={this.state.last_name}
+                onChange={this.handleChange('last_name')}
                 margin="normal"
                 variant="standard"
+                required
               />
             </Grid>
           </Grid>
@@ -133,26 +147,24 @@ class Form6 extends React.Component {
           <Grid container>
             <Grid item sm={6}>
               <TextField
-                id="id"
+                id="id_code"
                 label="Isikukood"
                 className={classes.textField}
-                value={this.state.id}
+                value={this.state.id_code}
                 type="number"
-                onChange={this.handleChange('id')}
+                onChange={this.handleChange('id_code')}
                 margin="normal"
                 variant="standard"
-                helperText={this.state.idErrMessage}
-                error={this.state.idErrMessage.length > 0}
               />
             </Grid>
             <Grid item sm={4}>
               <TextField
-                id="dateOfBirth"
+                id="date_of_birth"
                 label="Sünniaeg"
                 className={classes.textField}
-                value={this.state.dateOfBirth}
+                value={this.state.date_of_birth}
                 type="date"
-                onChange={this.handleChange('dateOfBirth')}
+                onChange={this.handleChange('date_of_birth')}
                 margin="normal"
                 variant="standard"
               />
@@ -173,10 +185,10 @@ class Form6 extends React.Component {
                 margin="normal"
                 variant="standard"
               >
-                <MenuItem key="M" value="M">
+                <MenuItem key="M" value="0">
                   M
                 </MenuItem>
-                <MenuItem key="N" value="N">
+                <MenuItem key="N" value="1">
                   N
                 </MenuItem>
               </TextField>
@@ -210,8 +222,6 @@ class Form6 extends React.Component {
             onChange={this.handleChange('email')}
             margin="normal"
             variant="standard"
-            helperText={this.state.emailErrMessage}
-            error={this.state.emailErrMessage.length > 0}
           />
           <div className={classes.button}>
             <Button type="submit" variant="contained" color="primary">

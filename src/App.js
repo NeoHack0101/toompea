@@ -8,28 +8,24 @@ import './App.css'
 
 const users = [
   {
-    address: 'Kastani 22',
-    dateOfBirth: '1920-04-05',
-    email: 'kall@i.ee',
-    emailErrMessage: '',
-    firstName: 'Vello',
-    id: '31012110101',
-    idErrMessage: '',
-    lastName: 'Nahk',
-    phone: '56564755',
-    sex: 'M'
+    first_name: 'Pedrik',
+    last_name: 'Kask',
+    id_code: '30101010101',
+    date_of_birth: '1920-01-01',
+    sex: '0',
+    phone: '56534255',
+    address: 'Kajaka 2',
+    email: 'pedrik@hot.ee'
   },
   {
-    address: 'Juurikas 22',
-    dateOfBirth: '1845-04-05',
-    email: 'kallis@i.ee',
-    emailErrMessage: '',
-    firstName: 'Peeter',
-    id: '31012100101',
-    idErrMessage: '',
-    lastName: 'Eeter',
-    phone: '565634355',
-    sex: 'M'
+    first_name: 'Suslik',
+    last_name: 'Tamm',
+    id_code: '40101010101',
+    date_of_birth: '1930-01-01',
+    sex: '1',
+    phone: '56224255',
+    address: 'Majaka 2',
+    email: 'suslik@hot.ee'
   }
 ]
 
@@ -42,18 +38,23 @@ class App extends Component {
       open: false
     }
   }
+  // async componentDidUpdate() {
+  //   const url = 'http://localhost:5000/get_users'
+  //   const response = await fetch(url)
+  //   const data = await response.json()
+  //   console.log('componentDidUpdate', data)
+  //   data.map(user => {
+  //     users.push(user)
+  //   })
+  // }
 
   async componentDidMount() {
-    const url = 'https://randomuser.me/api/?results=20'
+    const url = 'http://localhost:5000/get_users'
     const response = await fetch(url)
     const data = await response.json()
-    data.results.map(user => {
-      users.push({
-        firstName: user.name.first,
-        lastName: user.name.last,
-        email: user.email,
-        phone: user.phone
-      })
+    console.log('componentDidMount', data)
+    data.map(user => {
+      users.push(user)
     })
   }
 
@@ -66,9 +67,9 @@ class App extends Component {
     }
   }
 
-  onSubmit = user => {
-    users.push(user)
-  }
+  // onSubmit = user => {
+  //   users.push(user)
+  // }
 
   toggleModal = () => {
     this.setState({ open: !this.state.open })
@@ -101,7 +102,7 @@ class App extends Component {
               />
             </Fragment>
           ) : (
-            <Form onSubmit={user => this.onSubmit(user)} />
+            <Form />
           )}
         </div>
         )}

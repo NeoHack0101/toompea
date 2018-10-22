@@ -6,14 +6,14 @@ const UserTable = ({ users, toggleModal }) => {
     <Fragment>
       <MaterialTable
         columns={[
-          { title: 'Nimi', field: 'firstName' },
-          { title: 'Perenimi', field: 'lastName' },
+          { title: 'Nimi', field: 'first_name' },
+          { title: 'Perenimi', field: 'last_name' },
           { title: 'Email', field: 'email' },
-          { title: 'Isikukood', field: 'id' },
+          { title: 'Isikukood', field: 'id_code' },
           { title: 'Telefon', field: 'phone' },
           {
             title: 'Sünniaeg',
-            field: 'dateOfBirth',
+            field: 'date_of_birth',
             type: 'date'
           }
         ]}
