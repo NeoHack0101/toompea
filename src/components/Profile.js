@@ -5,7 +5,7 @@ import { Paper, Button, TextField, MenuItem, Grid } from '@material-ui/core'
 const styles = theme => ({
   paper: {
     marginTop: theme.spacing.unit * 8,
-    width: 500,
+    width: 400,
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
