@@ -47,14 +47,14 @@ class Form6 extends React.Component {
       this.state.id_code.startsWith('6')
     ) {
       this.setState({
-        sex: 'N'
+        sex: '1'
       })
     } else if (
       this.state.id_code.startsWith('3') ||
       this.state.id_code.startsWith('5')
     ) {
       this.setState({
-        sex: 'M'
+        sex: '0'
       })
     }
 
@@ -83,6 +83,8 @@ class Form6 extends React.Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.state)
       })
+        .then(this.props.updateUsers)
+        .catch(err => console.log('formsubmit error', err))
       //this.props.onSubmit(this.state)
       this.setState(initialState)
     }
