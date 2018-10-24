@@ -34,12 +34,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      route: 'signin',
-      isSignedin: false,
+      route: 'home',
+      isSignedin: true,
       open: false,
-      users: []
+      users: [],
+      clickedUser: {}
     }
     this.updateUsers = this.updateUsers.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
@@ -47,12 +49,10 @@ class App extends Component {
   }
 
   updateUsers() {
-    console.log(this)
     fetch('http://localhost:5000/get_users')
       .then(res => res.json())
       .then(data => this.setState({ users: data }))
       .catch(err => console.log(err))
-    console.log('updateUsers ')
   }
 
   onRouteChange = route => {
@@ -69,7 +69,21 @@ class App extends Component {
   }
 
   getClickedUser = user => {
-    return
+    this.setState({
+      clickedUser: user
+    })
+  }
+
+  handleDelete = user => {
+    let tmp = { id: user.id }
+    console.log(tmp)
+    fetch('http://localhost:5000/delete_user', {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(tmp)
+    })
+      .then(this.updateUsers)
+      .catch(err => console.log('handleDelete error: ', err))
   }
 
   render() {
@@ -86,24 +100,24 @@ class App extends Component {
               <ModalWrapper
                 toggleModal={this.toggleModal}
                 open={this.state.open}
-                getClickedUser={user => this.getClickedUser(user)}
               >
                 <Profile
-                  users={this.users}
-                  getClickedUser={this.getClickedUser}
+                  user={this.state.clickedUser}
+                  updateUsers={this.updateUsers}
+                  toggleModal={this.toggleModal}
                 />
               </ModalWrapper>
               <UserTable
                 users={this.state.users}
                 toggleModal={this.toggleModal}
                 getClickedUser={this.getClickedUser}
+                handleDelete={this.handleDelete}
               />
             </Fragment>
           ) : (
             <Form updateUsers={this.updateUsers} />
           )}
         </div>
-        )}
       </Fragment>
     )
   }

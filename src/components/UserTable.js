@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import MaterialTable from 'material-table'
 
-const UserTable = ({ users, toggleModal }) => {
+const UserTable = ({ users, toggleModal, getClickedUser, handleDelete }) => {
   return (
     <Fragment>
       <MaterialTable
@@ -9,7 +9,6 @@ const UserTable = ({ users, toggleModal }) => {
           { title: 'Nimi', field: 'first_name' },
           { title: 'Perenimi', field: 'last_name' },
           { title: 'Email', field: 'email' },
-          { title: 'Isikukood', field: 'id_code' },
           { title: 'Telefon', field: 'phone' },
           {
             title: 'Sünniaeg',
@@ -23,10 +22,19 @@ const UserTable = ({ users, toggleModal }) => {
           {
             icon: 'account_box',
             onClick: (e, row) => {
+              getClickedUser(row)
+              console.log(row)
               toggleModal()
+            }
+          },
+          {
+            icon: 'delete',
+            onClick: (e, row) => {
+              handleDelete(row)
             }
           }
         ]}
+        options={{ columnsButton: 'true' }}
       />
     </Fragment>
   )

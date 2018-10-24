@@ -1,6 +1,7 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { Paper, Button, TextField, MenuItem, Grid } from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const styles = theme => ({
   paper: {
@@ -16,17 +17,13 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     display: 'flex',
     flexGrow: 1
-  },
-  button: {
-    display: 'flex',
-    justifyContent: 'center'
   }
 })
 
 class Profile extends React.Component {
   constructor(props) {
     super(props)
-    this.state = this.props.getUser(1)
+    this.state = this.props.user
   }
 
   handleChange = input => event => {
@@ -35,12 +32,26 @@ class Profile extends React.Component {
     })
   }
 
+  updateUser = e => {
+    e.preventDefault()
+    let tmp = { id: this.state.id }
+    console.log(this.state)
+    fetch('http://localhost:5000/update_user', {
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(this.state)
+    })
+      .then(this.props.updateUsers)
+      .then(this.props.toggleModal)
+      .catch(err => console.log('user update error', err))
+  }
+
   render() {
     const { classes } = this.props
 
     return (
       <Paper className={classes.paper}>
-        <form id="mainform" autoComplete="off" onSubmit={this.handleSubmit}>
+        <form id="mainform" autoComplete="off">
           <Grid container>
             <Grid item sm>
               <TextField
@@ -150,8 +161,12 @@ class Profile extends React.Component {
             required
           />
           <div className={classes.button}>
-            <Button type="submit" variant="contained" color="primary">
-              Submit
+            <Button
+              onClick={this.updateUser}
+              variant="contained"
+              color="primary"
+            >
+              Update
             </Button>
           </div>
         </form>
