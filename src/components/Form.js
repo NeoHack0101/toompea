@@ -78,7 +78,7 @@ class Form6 extends React.Component {
     const err = false //this.validate()
     console.log(this.state)
     if (!err) {
-      fetch('http://localhost:5000/add_user', {
+      fetch('/api/add_user', {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.state)

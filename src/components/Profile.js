@@ -36,7 +36,7 @@ class Profile extends React.Component {
     e.preventDefault()
     let tmp = { id: this.state.id }
     console.log(this.state)
-    fetch('http://localhost:5000/update_user', {
+    fetch('/api/update_user', {
       method: 'put',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.state)

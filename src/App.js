@@ -49,7 +49,7 @@ class App extends Component {
   }
 
   updateUsers() {
-    fetch('http://localhost:5000/get_users')
+    fetch('/api/get_users')
       .then(res => res.json())
       .then(data => this.setState({ users: data }))
       .catch(err => console.log(err))
@@ -77,7 +77,7 @@ class App extends Component {
   handleDelete = user => {
     let tmp = { id: user.id }
     console.log(tmp)
-    fetch('http://localhost:5000/delete_user', {
+    fetch('/api/delete_user', {
       method: 'delete',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(tmp)
